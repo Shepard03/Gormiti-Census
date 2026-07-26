@@ -14,15 +14,24 @@ import tempfile
 
 def get_base_path():
     if getattr(sys, 'frozen', False):
-        # 1. Cerca il percorso standard di PyInstaller
-        bundle_dir = getattr(sys, '_MEIPASS', os.path.dirname(sys.executable))
-        
-        # 2. Controllo specifico per l'architettura dei pacchetti .app del Mac
-        mac_resources = os.path.abspath(os.path.join(bundle_dir, '..', 'Resources'))
-        if os.path.exists(os.path.join(mac_resources, "systemfile")):
-            return mac_resources
-            
-        return bundle_dir
+        if sys.platform == "darwin":
+            # Su macOS systemfile resta incorporato nel bundle .app tramite
+            # --add-data, quindi si segue il percorso standard di PyInstaller.
+            bundle_dir = getattr(sys, '_MEIPASS', os.path.dirname(sys.executable))
+
+            # Controllo specifico per l'architettura dei pacchetti .app del Mac
+            mac_resources = os.path.abspath(os.path.join(bundle_dir, '..', 'Resources'))
+            if os.path.exists(os.path.join(mac_resources, "systemfile")):
+                return mac_resources
+
+            return bundle_dir
+        else:
+            # Su Windows systemfile NON viene piu' incorporato nell'exe (vedi
+            # comando di build senza --add-data): e' l'installer a metterlo
+            # accanto all'eseguibile. Usiamo direttamente la cartella dell'exe
+            # (sys.executable), che resta stabile anche se PyInstaller cambia
+            # in futuro la propria struttura interna (es. _internal).
+            return os.path.dirname(sys.executable)
     else:
         return os.path.dirname(os.path.abspath(__file__))
 
