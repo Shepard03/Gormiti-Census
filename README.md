@@ -14,7 +14,7 @@ per l'interfaccia grafica in HTML/CSS/JS.
 
 ## 🎥 Tutorial
 
-[![Guarda il Tutorial](https://img.youtube.com/vi/Tbz-KJ3lfyg/maxresdefault.jpg)](https://youtu.be/Tbz-KJ3lfyg)
+[![Guarda il Tutorial](https://img.youtube.com/vi/jlhW0fynLEg/maxresdefault.jpg)](https://youtu.be/jlhW0fynLEg)
 *(clicca sull'immagine per guardare il video su YouTube)*
 
 ---
